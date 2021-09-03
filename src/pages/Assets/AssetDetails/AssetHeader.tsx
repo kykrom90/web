@@ -17,6 +17,7 @@ import { Card } from 'components/Card'
 import { Graph } from 'components/Graph/Graph'
 import { TimeControls } from 'components/Graph/TimeControls'
 import { RawText, Text } from 'components/Text'
+import DOMPurify from 'dompurify'
 import numeral from 'numeral'
 import { useState } from 'react'
 import NumberFormat from 'react-number-format'
@@ -31,6 +32,11 @@ export const AssetHeader = ({ asset }: { asset: AssetMarketData }) => {
   const [timeframe, setTimeframe] = useState(HistoryTimeframe.YEAR)
   const [graphPercentChange, setGraphPercentChange] = useState(percentChange)
   const translate = useTranslate()
+  const sanitizedDescription =
+    description &&
+    DOMPurify.sanitize(description, {
+      ALLOWED_TAGS: ['b', 'i', 'em', 'strong']
+    })
 
   return (
     <Card variant='footer-stub'>
@@ -124,12 +130,16 @@ export const AssetHeader = ({ asset }: { asset: AssetMarketData }) => {
           </Stat>
         </StatGroup>
       </Card.Footer>
-      {description && (
+      {sanitizedDescription && (
         <Card.Footer>
           <Card.Heading mb={4}>
             {translate('assets.assetDetails.assetHeader.aboutAsset', { asset: name })}
           </Card.Heading>
-          <RawText color='gray.500'>{description}</RawText>
+          <RawText
+            dangerouslySetInnerHTML={{
+              __html: sanitizedDescription
+            }}
+          ></RawText>
         </Card.Footer>
       )}
     </Card>
