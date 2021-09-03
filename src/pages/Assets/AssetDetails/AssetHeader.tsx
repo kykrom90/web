@@ -32,11 +32,9 @@ export const AssetHeader = ({ asset }: { asset: AssetMarketData }) => {
   const [timeframe, setTimeframe] = useState(HistoryTimeframe.YEAR)
   const [graphPercentChange, setGraphPercentChange] = useState(percentChange)
   const translate = useTranslate()
-  const sanitizedDescription =
-    description &&
-    DOMPurify.sanitize(description, {
-      ALLOWED_TAGS: ['b', 'i', 'em', 'strong']
-    })
+  const sanitizedDescription = DOMPurify.sanitize(description ?? '', {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong']
+  })
 
   return (
     <Card variant='footer-stub'>
