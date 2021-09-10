@@ -29,7 +29,7 @@ export const AssetRow: React.FC<ListChildComponentProps> = ({ data, index, style
           fontSize='sm'
           color={useColorModeValue('gray.500', 'whiteAlpha.500')}
         >
-          {token.name}
+          {token.displayName}
         </Text>
       </Box>
     </Button>
